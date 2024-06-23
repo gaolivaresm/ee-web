@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evangelio del Día</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Georgia', serif;
+        }
+        .rss-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 40px;
+        }
+        .rss-content {
+            margin: 20px 40px;
+            text-align: justify;
+            font-size: 1.1em;
+        }
+        .rss-content p:last-child {
+            color: #555;
+            margin: 20px;
+        }
+        .rss-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .caption {
+            font-size: 0.8em;
+            color: gray;
+            text-align: center;
+            margin: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Evangelio del Día</h1>
+        <img id="rss-image" class="rss-image" src="" alt="Grabado antiguo de Albrecht Dürer">
+        <div id="caption" class="caption"></div>
+        <div id="rss-feed"></div>
+    </div>
+
+    <script>
+        const rssFeedUrl = 'https://www.vaticannews.va/es/evangelio-de-hoy.rss.xml'; // URL del feed RSS
+        const artsyApiUrl = 'https://api.artsy.net/api/artworks?artist_id=4eaf0d2e6899c80001008f80'; // URL de la API de Artsy
+
+        async function fetchRSSFeed(url) {
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${url}`);
+                const data = await response.json();
+                displayLatestRSSItem(data.items);
+            } catch (error) {
+                console.error('Error al obtener el feed RSS:', error);
+            }
+        }
+
+        async function fetchArtsyImages(url) {
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'X-Xapp-Token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsInN1YmplY3RfYXBwbGljYXRpb24iOiIzMDVkMDdiYi01MDcyLTRhNDItOTNiOC01MDFhNjczMTAwNzAiLCJleHAiOjE3MTkzNTc2MDUsImlhdCI6MTcxODc1MjgwNSwiYXVkIjoiMzA1ZDA3YmItNTA3Mi00YTQyLTkzYjgtNTAxYTY3MzEwMDcwIiwiaXNzIjoiR3Jhdml0eSIsImp0aSI6IjY2NzIxNjI1MWVhZDNmMDAxM2UzZjEzZSJ9.ZfoTLexo-m-aq0hTxgA4nzBxaINAd2dlnvPlgkh6od8' // Reemplaza con tu token de acceso de Artsy
+                    }
+                });
+                const data = await response.json();
+                const artworks = data._embedded.artworks.filter(artwork => artwork.image_versions.includes('large_rectangle'));
+                if (artworks.length > 0) {
+                    const randomArtwork = artworks[Math.floor(Math.random() * artworks.length)];
+                    const imageUrl = randomArtwork._links.thumbnail.href.replace('medium', 'large_rectangle');
+                    document.getElementById('rss-image').src = imageUrl;
+                    document.getElementById('caption').textContent = `${randomArtwork.title} - Albrecht Dürer`;
+                }
+            } catch (error) {
+                console.error('Error al obtener las imágenes de Artsy:', error);
+            }
+        }
+
+        function displayLatestRSSItem(items) {
+            if (items.length > 0) {
+                const latestItem = items[0];
+                const rssFeedContainer = document.getElementById('rss-feed');
+
+                const rssItem = document.createElement('div');
+                rssItem.classList.add('rss-item');
+
+                const title = document.createElement('div');
+                title.classList.add('rss-title');
+                title.textContent = latestItem.title;
+
+                const content = document.createElement('div');
+                content.classList.add('rss-content');
+                const specificContent = getSpecificContent(latestItem.description, "Lectura del santo evangelio según san Mateo");
+
+                if (specificContent) {
+                    content.innerHTML = specificContent;
+                } else {
+                    content.innerHTML = 'No se encontró el contenido especificado.';
+                }
+
+                rssItem.appendChild(title);
+                rssItem.appendChild(content);
+                rssFeedContainer.appendChild(rssItem);
+            }
+        }
+
+        function getSpecificContent(html, searchString) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const paragraphs = Array.from(tempDiv.getElementsByTagName('p'));
+            let result = '';
+            let found = false;
+
+            for (let p of paragraphs) {
+                if (found || p.textContent.trim().startsWith(searchString)) {
+                    result += p.outerHTML + '<br>';
+                    found = true;
+                }
+            }
+            return found ? result : null;
+        }
+
+        fetchRSSFeed(rssFeedUrl);
+        fetchArtsyImages(artsyApiUrl);
+    </script>
+</body>
+</html>
