@@ -83,9 +83,12 @@
             try {
                 const response = await fetch(url, {
                     headers: {
-                        'X-Xapp-Token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsInN1YmplY3RfYXBwbGljYXRpb24iOiIzMDVkMDdiYi01MDcyLTRhNDItOTNiOC01MDFhNjczMTAwNzAiLCJleHAiOjE3MTkzNTc2MDUsImlhdCI6MTcxODc1MjgwNSwiYXVkIjoiMzA1ZDA3YmItNTA3Mi00YTQyLTkzYjgtNTAxYTY3MzEwMDcwIiwiaXNzIjoiR3Jhdml0eSIsImp0aSI6IjY2NzIxNjI1MWVhZDNmMDAxM2UzZjEzZSJ9.ZfoTLexo-m-aq0hTxgA4nzBxaINAd2dlnvPlgkh6od8' // Reemplaza con tu token de acceso de Artsy
+                        'X-Xapp-Token': 'yJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsInN1YmplY3RfYXBwbGljYXRpb24iOiIzMDVkMDdiYi01MDcyLTRhNDItOTNiOC01MDFhNjczMTAwNzAiLCJleHAiOjE3MjAzNzYyODcsImlhdCI6MTcxOTc3MTQ4NywiYXVkIjoiMzA1ZDA3YmItNTA3Mi00YTQyLTkzYjgtNTAxYTY3MzEwMDcwIiwiaXNzIjoiR3Jhdml0eSIsImp0aSI6IjY2ODFhMTVmOTExZjQ4NTMyYTkyNGU5NyJ9.KSt-b5oqyE1WfbUX2np0Y5Lzlsy_DNq9bsWkt0aX3-Q' // Reemplaza con tu token de acceso de Artsy
                     }
                 });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 const artworks = data._embedded.artworks.filter(artwork => artwork.image_versions.includes('large_rectangle'));
                 if (artworks.length > 0) {
@@ -93,6 +96,8 @@
                     const imageUrl = randomArtwork._links.thumbnail.href.replace('medium', 'large_rectangle');
                     document.getElementById('rss-image').src = imageUrl;
                     document.getElementById('caption').textContent = `${randomArtwork.title} - Albrecht Dürer`;
+                } else {
+                    console.warn('No artworks with large_rectangle version found.');
                 }
             } catch (error) {
                 console.error('Error al obtener las imágenes de Artsy:', error);
