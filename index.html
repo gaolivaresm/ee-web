@@ -44,30 +44,16 @@
             color: #555;
             margin: 20px;
         }
-        .rss-image {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .caption {
-            font-size: 0.8em;
-            color: gray;
-            text-align: center;
-            margin: 10px 20px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Evangelio del Día</h1>
-        <img id="rss-image" class="rss-image" src="" alt="Grabado antiguo de Albrecht Dürer">
-        <div id="caption" class="caption"></div>
         <div id="rss-feed"></div>
     </div>
 
     <script>
         const rssFeedUrl = 'https://www.vaticannews.va/es/evangelio-de-hoy.rss.xml'; // URL del feed RSS
-        const artsyApiUrl = 'https://api.artsy.net/api/artworks?artist_id=4eaf0d2e6899c80001008f80'; // URL de la API de Artsy
 
         async function fetchRSSFeed(url) {
             try {
@@ -76,31 +62,6 @@
                 displayLatestRSSItem(data.items);
             } catch (error) {
                 console.error('Error al obtener el feed RSS:', error);
-            }
-        }
-
-        async function fetchArtsyImages(url) {
-            try {
-                const response = await fetch(url, {
-                    headers: {
-                        'X-Xapp-Token': 'yJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsInN1YmplY3RfYXBwbGljYXRpb24iOiIzMDVkMDdiYi01MDcyLTRhNDItOTNiOC01MDFhNjczMTAwNzAiLCJleHAiOjE3MjAzNzYyODcsImlhdCI6MTcxOTc3MTQ4NywiYXVkIjoiMzA1ZDA3YmItNTA3Mi00YTQyLTkzYjgtNTAxYTY3MzEwMDcwIiwiaXNzIjoiR3Jhdml0eSIsImp0aSI6IjY2ODFhMTVmOTExZjQ4NTMyYTkyNGU5NyJ9.KSt-b5oqyE1WfbUX2np0Y5Lzlsy_DNq9bsWkt0aX3-Q' // Reemplaza con tu token de acceso de Artsy
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                const artworks = data._embedded.artworks.filter(artwork => artwork.image_versions.includes('large_rectangle'));
-                if (artworks.length > 0) {
-                    const randomArtwork = artworks[Math.floor(Math.random() * artworks.length)];
-                    const imageUrl = randomArtwork._links.thumbnail.href.replace('medium', 'large_rectangle');
-                    document.getElementById('rss-image').src = imageUrl;
-                    document.getElementById('caption').textContent = `${randomArtwork.title} - Albrecht Dürer`;
-                } else {
-                    console.warn('No artworks with large_rectangle version found.');
-                }
-            } catch (error) {
-                console.error('Error al obtener las imágenes de Artsy:', error);
             }
         }
 
@@ -149,7 +110,6 @@
         }
 
         fetchRSSFeed(rssFeedUrl);
-        fetchArtsyImages(artsyApiUrl);
     </script>
 </body>
 </html>
