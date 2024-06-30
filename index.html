@@ -53,11 +53,9 @@
     </div>
 
     <script>
-        const rssFeedUrl = 'https://www.vaticannews.va/es/evangelio-de-hoy.rss.xml'; // URL del feed RSS
-
         async function fetchRSSFeed(url) {
             try {
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${url}`);
+                const response = await fetch(url);
                 const data = await response.json();
                 displayLatestRSSItem(data.items);
             } catch (error) {
@@ -66,50 +64,28 @@
         }
 
         function displayLatestRSSItem(items) {
-            if (items.length > 0) {
-                const latestItem = items[0];
-                const rssFeedContainer = document.getElementById('rss-feed');
+            const rssFeedContainer = document.getElementById('rss-feed');
+            rssFeedContainer.innerHTML = '';  // Clear any existing content
 
+            items.slice(0, 5).forEach(item => {
                 const rssItem = document.createElement('div');
                 rssItem.classList.add('rss-item');
 
                 const title = document.createElement('div');
                 title.classList.add('rss-title');
-                title.textContent = latestItem.title;
+                title.textContent = item.title;
 
                 const content = document.createElement('div');
                 content.classList.add('rss-content');
-                const specificContent = getSpecificContent(latestItem.description, "Lectura del santo evangelio según san Mateo");
-
-                if (specificContent) {
-                    content.innerHTML = specificContent;
-                } else {
-                    content.innerHTML = 'No se encontró el contenido especificado.';
-                }
+                content.innerHTML = item.description;
 
                 rssItem.appendChild(title);
                 rssItem.appendChild(content);
                 rssFeedContainer.appendChild(rssItem);
-            }
+            });
         }
 
-        function getSpecificContent(html, searchString) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            const paragraphs = Array.from(tempDiv.getElementsByTagName('p'));
-            let result = '';
-            let found = false;
-
-            for (let p of paragraphs) {
-                if (found || p.textContent.trim().startsWith(searchString)) {
-                    result += p.outerHTML + '<br>';
-                    found = true;
-                }
-            }
-            return found ? result : null;
-        }
-
-        fetchRSSFeed(rssFeedUrl);
+        fetchRSSFeed('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.vaticannews.va%2Fes%2Fevangelio-de-hoy.rss.xml&api_key=z9tfnsog4ex1n9jo6qvykgmseprurpytirzuxhg8');
     </script>
 </body>
 </html>
