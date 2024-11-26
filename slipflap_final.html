@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relojes Split-Flap</title>
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/vector-gratis/ilustracion-viaje-tren-diseno-plano_52683-115388.jpg?t=st=1732641095~exp=1732644695~hmac=d2df7c7e6fddb4d12b9646f1013e22ae7b8ad3349380a0984e6564bf173a2a92&w=826');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            animation: backgroundMask 10s infinite;
+        }
+
+        @keyframes backgroundMask {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 25% 50%; }
+            50% { background-position: 50% 75%; }
+            75% { background-position: 75% 25%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .clock-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+        }
+
+        .clock {
+            display: flex;
+            align-items: center;
+            background-color: #000;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            padding: 10px 15px;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .flap {
+            display: inline-block;
+            width: 20px;
+            height: 30px;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            font-size: 1em;
+            margin: 0 2.5px;
+            border-radius: 2.5px;
+            box-shadow: 0 0 2.5px rgba(255, 255, 255, 0.5);
+        }
+
+        .city-name {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 120px;
+            margin-right: 10px;
+            color: #ff0;
+        }
+
+        .city-name .flap {
+            background-color: #000;
+            color: #ff0;
+        }
+
+        @media (max-width: 768px) {
+            .clock-container {
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .clock {
+                max-width: 250px;
+                padding: 8px 10px;
+            }
+
+            .flap {
+                width: 15px;
+                height: 25px;
+                font-size: 0.8em;
+            }
+
+            .city-name {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .clock {
+                max-width: 200px;
+                padding: 5px 8px;
+            }
+
+            .flap {
+                width: 12px;
+                height: 20px;
+                font-size: 0.7em;
+            }
+
+            .city-name {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <!-- Relojes -->
+        <div class="clock" id="paris-clock">
+            <div class="city-name" id="paris-name">
+                <div class="flap">P</div>
+                <div class="flap">A</div>
+                <div class="flap">R</div>
+                <div class="flap">I</div>
+                <div class="flap">S</div>
+            </div>
+            <div class="flap" id="paris-hour1">0</div>
+            <div class="flap" id="paris-hour2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="paris-minute1">0</div>
+            <div class="flap" id="paris-minute2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="paris-second1">0</div>
+            <div class="flap" id="paris-second2">0</div>
+        </div>
+        <div class="clock" id="berlin-clock">
+            <div class="city-name" id="berlin-name">
+                <div class="flap">B</div>
+                <div class="flap">E</div>
+                <div class="flap">R</div>
+                <div class="flap">L</div>
+                <div class="flap">I</div>
+                <div class="flap">N</div>
+            </div>
+            <div class="flap" id="berlin-hour1">0</div>
+            <div class="flap" id="berlin-hour2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="berlin-minute1">0</div>
+            <div class="flap" id="berlin-minute2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="berlin-second1">0</div>
+            <div class="flap" id="berlin-second2">0</div>
+        </div>
+        <div class="clock" id="london-clock">
+            <div class="city-name" id="london-name">
+                <div class="flap">L</div>
+                <div class="flap">O</div>
+                <div class="flap">N</div>
+                <div class="flap">D</div>
+                <div class="flap">O</div>
+                <div class="flap">N</div>
+            </div>
+            <div class="flap" id="london-hour1">0</div>
+            <div class="flap" id="london-hour2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="london-minute1">0</div>
+            <div class="flap" id="london-minute2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="london-second1">0</div>
+            <div class="flap" id="london-second2">0</div>
+        </div>
+        <div class="clock" id="miami-clock">
+            <div class="city-name" id="miami-name">
+                <div class="flap">M</div>
+                <div class="flap">I</div>
+                <div class="flap">A</div>
+                <div class="flap">M</div>
+                <div class="flap">I</div>
+            </div>
+            <div class="flap" id="miami-hour1">0</div>
+            <div class="flap" id="miami-hour2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="miami-minute1">0</div>
+            <div class="flap" id="miami-minute2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="miami-second1">0</div>
+            <div class="flap" id="miami-second2">0</div>
+        </div>
+        <div class="clock" id="chillan-clock">
+            <div class="city-name" id="chillan-name">
+                <div class="flap">C</div>
+                <div class="flap">H</div>
+                <div class="flap">I</div>
+                <div class="flap">L</div>
+                <div class="flap">L</div>
+                <div class="flap">A</div>
+                <div class="flap">N</div>
+            </div>
+            <div class="flap" id="chillan-hour1">0</div>
+            <div class="flap" id="chillan-hour2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="chillan-minute1">0</div>
+            <div class="flap" id="chillan-minute2">0</div>
+            <div class="flap">:</div>
+            <div class="flap" id="chillan-second1">0</div>
+            <div class="flap" id="chillan-second2">0</div>
+        </div>
+    </div>
+    <script>
+        const cities = {
+            paris: { name: ["P", "A", "R", "I", "S"], offset: 1 },
+            berlin: { name: ["B", "E", "R", "L", "I", "N"], offset: 2 },
+            london: { name: ["L", "O", "N", "D", "O", "N"], offset: 0 },
+            miami: { name: ["M", "I", "A", "M", "I"], offset: -5 },
+            chillan: { name: ["C", "H", "I", "L", "L", "A", "N"], offset: -3 }
+        };
+
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numbers = "0123456789";
+
+        function animateText(element, finalValue, type) {
+            let iterations = 0;
+            const interval = setInterval(() => {
+                element.textContent = type === "letter"
+                    ? alphabet[Math.floor(Math.random() * alphabet.length)]
+                    : numbers[Math.floor(Math.random() * numbers.length)];
+                iterations++;
+                if (iterations > 10) {
+                    clearInterval(interval);
+                    element.textContent = finalValue;
+                }
+            }, 50);
+        }
+
+        function animateCityName(city) {
+            const cityNameContainer = document.getElementById(`${city}-name`);
+            const letters = cityNameContainer.querySelectorAll(".flap");
+            const cityData = cities[city].name;
+
+            letters.forEach((letter, index) => {
+                animateText(letter, cityData[index], "letter");
+            });
+        }
+
+        function animateInitialDigits(city) {
+            const digitIds = ["hour1", "hour2", "minute1", "minute2", "second1", "second2"];
+            digitIds.forEach((idSuffix) => {
+                const element = document.getElementById(`${city}-${idSuffix}`);
+                animateText(element, element.textContent, "number");
+            });
+        }
+
+        function updateClock(city) {
+            const now = new Date();
+            const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+            const cityTime = new Date(utc + cities[city].offset * 3600000);
+            const hours = String(cityTime.getHours()).padStart(2, "0");
+            const minutes = String(cityTime.getMinutes()).padStart(2, "0");
+            const seconds = String(cityTime.getSeconds()).padStart(2, "0");
+
+            document.getElementById(`${city}-hour1`).textContent = hours[0];
+            document.getElementById(`${city}-hour2`).textContent = hours[1];
+            document.getElementById(`${city}-minute1`).textContent = minutes[0];
+            document.getElementById(`${city}-minute2`).textContent = minutes[1];
+            document.getElementById(`${city}-second1`).textContent = seconds[0];
+            document.getElementById(`${city}-second2`).textContent = seconds[1];
+        }
+
+        function updateAllClocks() {
+            Object.keys(cities).forEach((city) => {
+                updateClock(city);
+            });
+        }
+
+        Object.keys(cities).forEach((city) => {
+            animateCityName(city);
+            animateInitialDigits(city);
+        });
+
+        setTimeout(updateAllClocks, 1500); // Actualizar después de la animación inicial
+        setInterval(updateAllClocks, 1000);
+    </script>
+</body>
+</html>
