@@ -1,8 +1,3 @@
-// ADVERTENCIA DE SEGURIDAD: La API key no debería estar aquí en un entorno de producción.
-// Considera usar un backend o una función serverless para protegerla.
-const apiKey = 'z9tfnsog4ex1n9jo6qvykgmseprurpytirzuxhg8';
-const rssFeedUrl = 'https://www.vaticannews.va/es/evangelio-de-hoy.rss.xml';
-
 /**
  * Busca y extrae el contenido específico del evangelio desde un bloque HTML.
  * @param {string} html - El contenido HTML del feed RSS.
@@ -65,8 +60,10 @@ function displayLatestRSSItem(items) {
  * Obtiene y procesa el feed RSS.
  */
 async function fetchRSSFeed() {
+    // La URL ahora apunta a nuestra función de Netlify, no a la API externa directamente.
+    const functionUrl = '/.netlify/functions/fetch-gospel';
     try {
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}&api_key=${apiKey}`);
+        const response = await fetch(functionUrl);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
