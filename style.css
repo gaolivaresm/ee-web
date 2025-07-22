@@ -1,0 +1,40 @@
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea al inicio para lecturas largas */
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px; /* Añade margen para que no pegue a los bordes */
+    padding: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+h1 {
+    font-size: 2em;
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Georgia', serif;
+}
+
+.rss-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 20px 40px;
+}
+
+.rss-content {
+    margin: 20px 40px;
+    text-align: justify;
+    font-size: 1.1em;
+}

@@ -1,0 +1,3 @@
+[functions]
+  # Directorio donde vivirán las funciones serverless.
+  directory = "netlify/functions/"

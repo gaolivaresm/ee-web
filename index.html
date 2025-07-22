@@ -70,48 +70,50 @@
         }
 
         function displayLatestRSSItem(items) {
-            if (items.length > 0) {
-                const latestItem = items[0];
-                const rssFeedContainer = document.getElementById('rss-feed');
+    if (items.length > 0) {
+        const latestItem = items[0];
+        const rssFeedContainer = document.getElementById('rss-feed');
 
-                const rssItem = document.createElement('div');
-                rssItem.classList.add('rss-item');
+        const rssItem = document.createElement('div');
+        rssItem.classList.add('rss-item');
 
-                const title = document.createElement('div');
-                title.classList.add('rss-title');
-                title.textContent = latestItem.title;
+        const title = document.createElement('div');
+        title.classList.add('rss-title');
+        title.textContent = latestItem.title;
 
-                const content = document.createElement('div');
-                content.classList.add('rss-content');
-                const specificContent = getSpecificContent(latestItem.description, "Lectura del santo evangelio según san Mateo");
+        const content = document.createElement('div');
+        content.classList.add('rss-content');
+        const specificContent = getSpecificContent(latestItem.description);
 
-                if (specificContent) {
-                    content.innerHTML = specificContent;
-                } else {
-                    content.innerHTML = 'No se encontró el contenido especificado.';
-                }
+        content.innerHTML = specificContent;
 
-                rssItem.appendChild(title);
-                rssItem.appendChild(content);
-                rssFeedContainer.appendChild(rssItem);
-            }
+        // Agregar el contenido completo si no se encontró el evangelio
+        if (specificContent === "No se encontró el contenido del evangelio.") {
+            content.innerHTML += "<br><br>Contenido completo:<br>" + latestItem.description;
         }
+
+        rssItem.appendChild(title);
+        rssItem.appendChild(content);
+        rssFeedContainer.appendChild(rssItem);
+    }
+}
+
 
         function getSpecificContent(html, searchString) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            const paragraphs = Array.from(tempDiv.getElementsByTagName('p'));
-            let result = '';
-            let found = false;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const paragraphs = Array.from(tempDiv.getElementsByTagName('p'));
+    let result = '';
+    let found = false;
 
-            for (let p of paragraphs) {
-                if (found || p.textContent.trim().startsWith(searchString)) {
-                    result += p.outerHTML + '<br>';
-                    found = true;
-                }
-            }
-            return found ? result : null;
+    for (let p of paragraphs) {
+        if (found || p.textContent.trim().includes("Lectura del santo evangelio")) {
+            result += p.outerHTML + '<br>';
+            found = true;
         }
+    }
+    return found ? result : "No se encontró el contenido del evangelio.";
+}
 
         fetchRSSFeed(rssFeedUrl);
     </script>
